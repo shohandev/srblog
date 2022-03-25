@@ -1,20 +1,16 @@
 <?php
 include_once '../../../vendor/autoload.php';
 
-use Admin\Post\Post;
-
 use Admin\Category\Category;
 
 session_start();
 
-$post = new post();
+$category = new category();
 
-$post = $post->show($_GET['id']);
+$category = $category->show($_GET['id']);
 
-$category = new Category();
-
-$categories = $category->index();
 ?>
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
@@ -314,10 +310,21 @@ $categories = $category->index();
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Posts </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
                                 <li class="sidebar-item">
-                                    <a href="create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Post </span></a>
+                                    <a href="../posts/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Post </span></a>
                                 </li>
                                 <li class="sidebar-item">
                                     <a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Post List </span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Category </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Category</span></a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="../category/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Category List </span></a>
                                 </li>
                             </ul>
                         </li>
@@ -441,57 +448,25 @@ $categories = $category->index();
                     <div class="card">
                         <form class="form-horizontal" method="POST" action="update.php" enctype="multipart/form-data">
                             <div class="card-body">
-                                <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
-                                <h4 class="card-title">Edit Post Information</h4>
+                                <input type="hidden" name="id" value="<?php echo $category['id'] ?>">
+                                <h4 class="card-title">Edit Category</h4>
                                 <div class="form-group row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Title</label>
+                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="title" id="title" value="<?php echo $post['title'] ?>" placeholder="Enter Title Here" />
+                                        <input type="text" class="form-control" name="category" id="category" value="<?php echo $category['category'] ?>" placeholder="Enter Category Here" />
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Summary :</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control" name="summary" id="summary"><?php echo $post['summary'] ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Post :</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="body" id="body" style="height: 300px; width: 100%"> <?php echo $post['body'] ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Category :</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option value="" selected disabled> Select </option>
-                                            <?php
-                                            for ($i = 0; $i < count($categories); $i++) {
-                                            ?>
-                                                <option value="<?php echo $categories[$i]['id'] ?>"><?php echo $categories[$i]['category'] ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">File Upload :</label>
-                                    <div class="col-sm-9">
-                                        <div class="custom-file" style="display: flex;">
-                                            <input type="file" name="cover_photo" class="custom-file-input" id="cover_photo" />
-                                            <img width="150" src="../../../images/<?php echo $post['cover_photo'] ? $post['cover_photo'] : 'no-profile-picture.jpg' ?>">
-                                            <div class="invalid-feedback">
-                                                Example invalid custom file feedback
-                                            </div>
+                                
+
                                         </div>
-                                        <div class="border-top">
-                                            <div class="card-body">
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <div class="">
+                                    <div class="card-body text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>

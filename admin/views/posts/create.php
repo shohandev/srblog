@@ -1,16 +1,20 @@
 <?php
 include_once '../../../vendor/autoload.php';
 
-use Admin\Post\Post;
+use Admin\Category\Category;
 
 session_start();
 
-if(!isset($_SESSION['user']) || empty($_SESSION['user'])) {
-  header("Location: ../users/login.php");
-  exit();
+if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+    header("Location: ../users/login.php");
+    exit();
 }
 
-$post = new Post();
+$category = new Category();
+
+$categories = $category->index();
+
+
 
 ?>
 <!DOCTYPE html>
@@ -470,11 +474,24 @@ $post = new Post();
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Category :</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control">
+                                            <option value="" selected disabled> Select </option>
+                                                <?php 
+                                                for($i = 0; $i < count($categories); $i++) {
+                                                ?>
+                                                <option value="<?php echo $categories[$i]['id'] ?>"><?php echo $categories[$i]['category'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="border-top">
-                                    <div class="card-body">
-                                        <button type="submit" class="btn btn-primary">
+                                    <div class="card-body text-end">
+                                        <button type="submit" class="btn btn-success">
                                             Submit
                                         </button>
                                     </div>

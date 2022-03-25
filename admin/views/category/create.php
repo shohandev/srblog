@@ -1,19 +1,17 @@
 <?php
 include_once '../../../vendor/autoload.php';
 
-use Admin\Post\Post;
-
 use Admin\Category\Category;
 
 session_start();
 
-$post = new post();
-
-$post = $post->show($_GET['id']);
+if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+    header("Location: ../users/login.php");
+    exit();
+}
 
 $category = new Category();
 
-$categories = $category->index();
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -43,8 +41,6 @@ $categories = $category->index();
 </head>
 
 <body>
-
-
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -262,14 +258,14 @@ $categories = $category->index();
                                 <img src="../../assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-account me-1 ms-1"></i> My Profile</a>
+                                <a class="dropdown-item" href="../users/profile.php"><i class="mdi mdi-account me-1 ms-1"></i> My Profile</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-wallet me-1 ms-1"></i> My Balance</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-email me-1 ms-1"></i> Inbox</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-settings me-1 ms-1"></i> Account
                                     Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-power-off me-1 ms-1"></i> Logout</a>
+                                <a class="dropdown-item" href="../users/logout.php"><i class="fa fa-power-off me-1 ms-1"></i> Logout</a>
                                 <div class="dropdown-divider"></div>
                                 <div class="ps-4 p-10">
                                     <a href="javascript:void(0)" class="btn btn-sm btn-success btn-rounded text-white">View Profile</a>
@@ -317,7 +313,18 @@ $categories = $category->index();
                                     <a href="create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Post </span></a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Post List </span></a>
+                                    <a href="../posts/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Post List </span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Category </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Category</span></a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="../category/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Category List </span></a>
                                 </li>
                             </ul>
                         </li>
@@ -415,7 +422,6 @@ $categories = $category->index();
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">Create Post</h4>
                         <div class="ms-auto text-end">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -436,85 +442,49 @@ $categories = $category->index();
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="card">
-                        <form class="form-horizontal" method="POST" action="update.php" enctype="multipart/form-data">
-                            <div class="card-body">
-                                <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
-                                <h4 class="card-title">Edit Post Information</h4>
-                                <div class="form-group row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Title</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="title" id="title" value="<?php echo $post['title'] ?>" placeholder="Enter Title Here" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Summary :</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control" name="summary" id="summary"><?php echo $post['summary'] ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Post :</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="body" id="body" style="height: 300px; width: 100%"> <?php echo $post['body'] ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Category :</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option value="" selected disabled> Select </option>
-                                            <?php
-                                            for ($i = 0; $i < count($categories); $i++) {
-                                            ?>
-                                                <option value="<?php echo $categories[$i]['id'] ?>"><?php echo $categories[$i]['category'] ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">File Upload :</label>
-                                    <div class="col-sm-9">
-                                        <div class="custom-file" style="display: flex;">
-                                            <input type="file" name="cover_photo" class="custom-file-input" id="cover_photo" />
-                                            <img width="150" src="../../../images/<?php echo $post['cover_photo'] ? $post['cover_photo'] : 'no-profile-picture.jpg' ?>">
-                                            <div class="invalid-feedback">
-                                                Example invalid custom file feedback
-                                            </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <form class="form-horizontal" method="POST" action="store_category.php">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="category" class="col-sm-3 text-end control-label col-form-label">Category Name :</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="category" id="category" placeholder="Enter Category Name" />
                                         </div>
-                                        <div class="border-top">
-                                            <div class="card-body">
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
-                                            </div>
-                                        </div>
-                        </form>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="card-body text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+                    <div class="col-md-2"></div>
                 </div>
-                <div class="col-md-2"></div>
             </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                All Rights Reserved by Matrix-admin. Designed and Developed by
+                <a href="https://www.wrappixel.com">WrapPixel</a>.
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Container fluid  -->
+        <!-- End Page wrapper  -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- footer -->
-        <!-- ============================================================== -->
-        <footer class="footer text-center">
-            All Rights Reserved by Matrix-admin. Designed and Developed by
-            <a href="https://www.wrappixel.com">WrapPixel</a>.
-        </footer>
-        <!-- ============================================================== -->
-        <!-- End footer -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Page wrapper  -->
-    <!-- ============================================================== -->
     </div>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
@@ -546,9 +516,9 @@ $categories = $category->index();
     <script src="../../dist/js/pages/chart/chart-page-init.js"></script>
     <script src="../../assets/libs/quill/dist/quill.min.js"></script>
     <script>
-        // var quill = new Quill("#body", {
-        //     theme: "snow",
-        // });
+        var quill = new Quill("#body", {
+            theme: "snow",
+        });
     </script>
 </body>
 

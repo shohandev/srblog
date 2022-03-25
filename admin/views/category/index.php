@@ -1,7 +1,7 @@
 <?php
 include_once '../../../vendor/autoload.php';
 
-use Admin\Post\Post;
+use Admin\Category\Category;
 
 session_start();
 
@@ -11,9 +11,9 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 }
 
 
-$post = new Post();
+$category = new Category();
 
-$posts = $post->index();
+$categories = $category->index();
 
 ?>
 
@@ -328,7 +328,7 @@ $posts = $post->index();
               <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Category </span></a>
               <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item">
-                  <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Post Category</span></a>
+                  <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Category</span></a>
                 </li>
                 <li class="sidebar-item">
                   <a href="../category/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Category List </span></a>
@@ -429,7 +429,7 @@ $posts = $post->index();
       <div class="page-breadcrumb">
         <div class="row">
           <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">Post List</h4>
+            <h4 class="page-title">Category List</h4>
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -464,20 +464,19 @@ $posts = $post->index();
                 <thead>
                   <tr>
                     <th>#SL</th>
-                    <th>Title</th>
+                    <th>Category</th>
                     <th>Option</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  for ($i = 0; $i < count($posts); $i++) {
+                  for ($i = 0; $i < count($categories); $i++) {
                   ?>
                     <tr>
                       <td> <?php echo $i + 1 ?> </td>
-                      <td><?php echo $posts[$i]['title'] ?></td>
-                      <td><a href="../../../frontend/post.php?id=<?php echo $posts[$i]['id'] ?>" target="_blank">Preview</a> |
-                        <a href="edit.php?id=<?php echo $posts[$i]['id'] ?>">Edit</a> |
-                        <a href="delete.php?id=<?php echo $posts[$i]['id'] ?>" onclick="return confirm('Are you sure you want to delete this post.?');">Delete </a>
+                      <td><?php echo $categories[$i]['category'] ?></td>
+                      <td><a href="edit.php?id=<?php echo $categories[$i]['id'] ?>">Edit</a> |
+                        <a href="delete.php?id=<?php echo $categoryies[$i]['id'] ?>" onclick="return confirm('Are you sure you want to delete this post.?');">Delete </a>
                       </td>
                     </tr>
                   <?php } ?>

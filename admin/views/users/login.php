@@ -1,5 +1,6 @@
 <?php
 include_once '../../../vendor/autoload.php';
+session_start();
 
 if(isset($_SESSION['user']) && !empty($_SESSION['user'])) {
   header("Location: ../posts/index.php");
@@ -50,7 +51,6 @@ if(isset($_SESSION['user']) && !empty($_SESSION['user'])) {
         <!-- ============================================================== -->
         <div class="bg-dark">
             <?php
-            session_start();
             if (isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
                 unset($_SESSION['message']);
