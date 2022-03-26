@@ -477,7 +477,7 @@ $categories = $category->index();
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Category :</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control">
+                                            <select name="category_id" id="category_id" class="form-control">
                                             <option value="" selected disabled> Select </option>
                                                 <?php 
                                                 for($i = 0; $i < count($categories); $i++) {

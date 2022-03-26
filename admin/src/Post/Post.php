@@ -9,6 +9,7 @@ class Post{
     public $summary;
     public $body;
     public $cover_photo;
+    public $category_id;
     public function __construct()
     {
         $this->mysqli = new mysqli('localhost', 'root', '', 'srblog');
@@ -36,14 +37,17 @@ class Post{
         if(array_key_exists('cover_photo', $data)) {
             $this->cover_photo = $data['cover_photo'];
         }
+        if(array_key_exists('category_id', $data)) {
+            $this->category_id = $data['category_id'];
+        }
     }
 
     public function store()
     {
-        $query="INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "')";
+        $query="INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`,`category_id`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "','" . $this->category_id . "')";
         $result = $this->mysqli->query($query);
-        // echo $query;
-        // die;
+        echo $query;
+        die;
 
         if ($result) {
             $_SESSION['message'] = '<h2 style="text-align:center; color:green; margin-bottom:10px">Your Article has been posted successfully</h2>';
