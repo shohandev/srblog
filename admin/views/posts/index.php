@@ -328,7 +328,7 @@ $posts = $post->index();
               <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Category </span></a>
               <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item">
-                  <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Post Category</span></a>
+                  <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Category</span></a>
                 </li>
                 <li class="sidebar-item">
                   <a href="../category/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Category List </span></a>

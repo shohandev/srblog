@@ -476,7 +476,7 @@ $categories = $category->index();
                       <td> <?php echo $i + 1 ?> </td>
                       <td><?php echo $categories[$i]['category'] ?></td>
                       <td><a href="edit.php?id=<?php echo $categories[$i]['id'] ?>">Edit</a> |
-                        <a href="delete.php?id=<?php echo $categoryies[$i]['id'] ?>" onclick="return confirm('Are you sure you want to delete this post.?');">Delete </a>
+                        <a href="delete.php?id=<?php echo $categories[$i]['id'] ?>" onclick="return confirm('Are you sure you want to delete this post.?');">Delete </a>
                       </td>
                     </tr>
                   <?php } ?>

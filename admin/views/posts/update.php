@@ -6,9 +6,9 @@ use Admin\Post\Post;
 session_start();
 
 $post = new post();
-// print_r($_POST);
+// print_r($_FILES);
 // die;
-if (isset($_FILES['cover_photo'])) {
+if (isset($_FILES['cover_photo']['name']) && !empty($_FILES['cover_photo']['name'])) {
 
     $old_post = $post->show($_POST['id']);
 
@@ -27,7 +27,7 @@ if (isset($_FILES['cover_photo'])) {
     $test = explode('.', $image_name);
     $file_extension = strtolower(end($test));
 
-    $format = array('jpeg', 'jpg', 'png');
+    $format = array('jpeg', 'jpg', 'png','webp');
 
 
     if (in_array($file_extension, $format) === false) {

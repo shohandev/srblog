@@ -310,7 +310,7 @@ $category = new Category();
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Posts </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
                                 <li class="sidebar-item">
-                                    <a href="create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Post </span></a>
+                                    <a href="../posts/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Post </span></a>
                                 </li>
                                 <li class="sidebar-item">
                                     <a href="../posts/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Post List </span></a>

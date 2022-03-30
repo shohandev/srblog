@@ -88,7 +88,8 @@ $posts = $post->index();
                         ?>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
+                            <a href="#!">Start Bootstrap</a> in 
+                            <a href="category.php?id=<?php echo $posts[$i]['category_id'] ?>"><?php echo $posts[$i]['category_name'] ?></a>
                             on <?php echo $formattedPostDate;  ?>
                         </p>
                     </div>

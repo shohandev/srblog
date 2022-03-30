@@ -1,8 +1,11 @@
 <?php
+
 namespace Admin\Post;
+
 use mysqli;
 
-class Post{
+class Post
+{
     public $mysqli;
     public $id;
     public $title;
@@ -19,35 +22,35 @@ class Post{
         }
     }
 
-    public function prepare($data=[]) 
+    public function prepare($data = [])
     {
-        if(array_key_exists('id', $data)) {
+        if (array_key_exists('id', $data)) {
             $this->id = $data['id'];
         }
 
-        if(array_key_exists('title', $data)) {
+        if (array_key_exists('title', $data)) {
             $this->title = $data['title'];
         }
-        if(array_key_exists('summary', $data)) {
+        if (array_key_exists('summary', $data)) {
             $this->summary = $data['summary'];
         }
-        if(array_key_exists('body', $data)) {
+        if (array_key_exists('body', $data)) {
             $this->body = $data['body'];
         }
-        if(array_key_exists('cover_photo', $data)) {
+        if (array_key_exists('cover_photo', $data)) {
             $this->cover_photo = $data['cover_photo'];
         }
-        if(array_key_exists('category_id', $data)) {
+        if (array_key_exists('category_id', $data)) {
             $this->category_id = $data['category_id'];
         }
     }
 
     public function store()
     {
-        $query="INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`,`category_id`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "','" . $this->category_id . "')";
+        $query = "INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`,`category_id`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "','" . $this->category_id . "')";
         $result = $this->mysqli->query($query);
-        echo $query;
-        die;
+        // echo $query;
+        // die;
 
         if ($result) {
             $_SESSION['message'] = '<h2 style="text-align:center; color:green; margin-bottom:10px">Your Article has been posted successfully</h2>';
@@ -55,11 +58,12 @@ class Post{
             $_SESSION['message'] = '<h2 style="text-align:center; color:red; margin-bottom:10px">Oops! Something wrong to post your article. Please try again.</h2>';
         }
 
-        header('location:index.php'); 
+        header('location:index.php');
     }
-    public function index ()
+    public function index()
     {
-        $query = "SELECT * FROM post ";
+        $query = "SELECT post.*, category.category as category_name FROM post join category on post.category_id = category.id";
+
 
         $result = $this->mysqli->query($query);
 
@@ -79,8 +83,17 @@ class Post{
     }
     public function update()
     {
-        $query = "UPDATE `post` SET `title`='" . $this->mysqli->real_escape_string($this->title) . "',`summary`='" . $this->mysqli->real_escape_string($this->summary) . "',`body`='" . $this->mysqli->real_escape_string($this->body) . "',`cover_photo`='" . $this->cover_photo . "',`updated_at`='" . date('Y-m-d H:i:s') . "' WHERE `id`=". $this->id;
+        if (!empty($this->cover_photo)) {
+            $query = "UPDATE `post` SET `title`='" . $this->mysqli->real_escape_string($this->title) . "',`summary`='" . $this->mysqli->real_escape_string($this->summary) . "',`body`='" . $this->mysqli->real_escape_string($this->body) . "',`cover_photo`='" . $this->cover_photo . "', `category_id`='" . $this->category_id . "', `updated_at`='" . date('Y-m-d H:i:s') . "' WHERE `id`=" . $this->id;
+        } else {
+            $query = "UPDATE `post` SET `title`='" . $this->mysqli->real_escape_string($this->title) . "',`summary`='" . $this->mysqli->real_escape_string($this->summary) . "',`body`='" . $this->mysqli->real_escape_string($this->body) . "',`category_id`='" . $this->category_id . "', `updated_at`='" . date('Y-m-d H:i:s') . "' WHERE `id`=" . $this->id;
+        }
+        //  echo $query;
+        // die;
+
+
         $result = $this->mysqli->query($query);
+
 
         if ($result) {
             $_SESSION['message'] = '<h2 style="text-align:center; color:green; margin-bottom:10px">Your Post has been updated successfully</h2>';
@@ -103,5 +116,15 @@ class Post{
         }
 
         header('location:index.php');
+    }
+    public function categoryPosts($category_id)
+    {
+        $query = "SELECT * FROM post WHERE `category_id`=" . $category_id;
+
+        $result = $this->mysqli->query($query);
+
+        $posts = $result->fetch_all(MYSQLI_ASSOC);
+
+        return $posts;
     }
 }

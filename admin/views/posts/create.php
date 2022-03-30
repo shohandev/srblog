@@ -322,6 +322,17 @@ $categories = $category->index();
                             </ul>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Category </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="../category/create.php" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Create Category</span></a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="../category/index.php" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Category List </span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-buttons.html" aria-expanded="false"><i class="mdi mdi-relative-scale"></i><span class="hide-menu">Buttons</span></a>
                         </li>
                         <li class="sidebar-item">
@@ -477,12 +488,12 @@ $categories = $category->index();
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Category :</label>
                                         <div class="col-sm-9">
-                                            <select name="category_id" id="category_id" class="form-control">
-                                            <option value="" selected disabled> Select </option>
-                                                <?php 
-                                                for($i = 0; $i < count($categories); $i++) {
+                                            <select name="category_id" id="category_id" class="form-control" required>
+                                                <option value="" selected disabled> Select </option>
+                                                <?php
+                                                for ($i = 0; $i < count($categories); $i++) {
                                                 ?>
-                                                <option value="<?php echo $categories[$i]['id'] ?>"><?php echo $categories[$i]['category'] ?></option>
+                                                    <option value="<?php echo $categories[$i]['id'] ?>"><?php echo $categories[$i]['category'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
