@@ -115,4 +115,14 @@ class User{
             }
 
         }
+        public function show($id)
+        {
+            $query = "SELECT * FROM  users WHERE `id`=" . $id;
+    
+            $result = $this->mysqli->query($query);
+    
+            $user = $result->fetch_assoc();
+    
+            return $user;
+        }
     }

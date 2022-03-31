@@ -3,6 +3,7 @@ include_once '../vendor/autoload.php';
 
 use Admin\Category\Category;
 use Admin\Post\Post;
+use Admin\Users\User;
 
 session_start();
 
@@ -12,10 +13,13 @@ $post = new Post();
 
 $post = $post->show($_GET['id']);
 
+
 $category = new Category();
 
 
 $category = $category->show($post['category_id']);
+$user = new User();
+$user = $user->show($post['user_id']);
 
 // print_r($post);
 // die;
@@ -67,9 +71,13 @@ $category = $category->show($post['category_id']);
                             <h2 class="subheading"><?php echo $post['summary'] ?></h2>
                             <span class="meta">
                                 Posted by
-                                <a href="#!">Start Bootstrap</a>
+                                <a href="category.php?id=<?php echo $post['user_id'] ?>"> <span class="font-weight-bold"><?php echo $user['username'] ?></span> </a>
                                 in <a href="category.php?id=<?php echo $post['category_id'] ?>"> <span class="font-weight-bold"><?php echo $category['category'] ?></span> </a>
-                                on August 24, 2021
+                                on <?php 
+                        $date=date_create($post['created_at']);
+                        $formattedPostDate =  date_format($date,"F j, Y");
+                        echo $formattedPostDate;
+                        ?>
                             </span>
                         </div>
                     </div>

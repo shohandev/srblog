@@ -4,14 +4,12 @@ include_once '../vendor/autoload.php';
 
 use Admin\Post\Post;
 
-use Admin\Post\User;
-
 session_start();
 
 
 $post = new Post();
 
-$posts = $post->index();
+$user = $post->categoryPosts($_GET['id']);
 
 // print_r($posts);
 // die;
@@ -48,7 +46,7 @@ $posts = $post->index();
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../admin/views/users/login.php">Log in</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
                     </ul>
                 </div>
@@ -90,8 +88,8 @@ $posts = $post->index();
                         ?>
                         <p class="post-meta">
                             Posted by
-                            <a href="username.php?id=<?php echo $posts[$i]['user_id'] ?>"><?php echo $posts[$i]['username'] ?></a> in 
-                            <a href="category.php?id=<?php echo $posts[$i]['category_id'] ?>"><?php echo $posts[$i]['category_name'] ?></a>
+                            <a href="#!">Start Bootstrap</a>
+                            <a href=""
                             on <?php echo $formattedPostDate;  ?>
                         </p>
                     </div>

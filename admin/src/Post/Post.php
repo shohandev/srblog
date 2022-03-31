@@ -13,6 +13,7 @@ class Post
     public $body;
     public $cover_photo;
     public $category_id;
+    protected $user_id;
     public function __construct()
     {
         $this->mysqli = new mysqli('localhost', 'root', '', 'srblog');
@@ -43,11 +44,12 @@ class Post
         if (array_key_exists('category_id', $data)) {
             $this->category_id = $data['category_id'];
         }
+        $this->user_id=$_SESSION['user']['id'];
     }
 
     public function store()
     {
-        $query = "INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`,`category_id`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "','" . $this->category_id . "')";
+        $query = "INSERT INTO `post`( `title`, `summary`, `body`,`cover_photo`,`category_id`,`user_id`) VALUES ('" . $this->mysqli->real_escape_string($this->title) . "','" . $this->mysqli->real_escape_string($this->summary) . "','" . $this->mysqli->real_escape_string($this->body) . "','" . $this->cover_photo . "','" . $this->category_id . "','" . $this->user_id . "')";
         $result = $this->mysqli->query($query);
         // echo $query;
         // die;
@@ -62,8 +64,9 @@ class Post
     }
     public function index()
     {
-        $query = "SELECT post.*, category.category as category_name FROM post join category on post.category_id = category.id";
-
+        $query = "SELECT post.*, category.category as category_name, users.username as username FROM post  join category on post.category_id = category.id join users on post.user_id = users.id";
+        // echo $query;
+        // die;
 
         $result = $this->mysqli->query($query);
 
@@ -120,6 +123,16 @@ class Post
     public function categoryPosts($category_id)
     {
         $query = "SELECT * FROM post WHERE `category_id`=" . $category_id;
+
+        $result = $this->mysqli->query($query);
+
+        $posts = $result->fetch_all(MYSQLI_ASSOC);
+
+        return $posts;
+    }
+    public function userPosts($user_id)
+    {
+        $query = "SELECT * FROM post WHERE `id`=" . $user_id;
 
         $result = $this->mysqli->query($query);
 
